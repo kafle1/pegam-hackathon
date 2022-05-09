@@ -9,9 +9,13 @@ import {
   IconButton,
 } from "@mui/material";
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const SendMessage = () => {
-  const [url, setUrl] = useState("dfsf");
+  const location = useLocation();
+  const messageId = location.state;
+
+  const [url, setUrl] = useState('https://localhost:3000/'+messageId);
   const [mail, setMail] = useState("");
 
   const [errorText, setErrorText] = useState("");

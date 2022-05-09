@@ -3,9 +3,11 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import { ButtonGroup, Container, IconButton, Box } from "@mui/material";
-import { AttachFileRounded, ImageRounded } from "@mui/icons-material";
+import { Container, IconButton, Box } from "@mui/material";
+import { AttachFileRounded } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
+import { database } from "../appwrite/database";
 
 const CreateMessage = () => {
   const [message, setMessage] = useState("");
@@ -13,9 +15,14 @@ const CreateMessage = () => {
   const [file, setFile] = useState();
 
   const history = useNavigate();
-  const createPegam = (e) => {
-    history("/send-message");
-    console.log({ message, password, file });
+  const createPegam = async (e) => {
+    const newMessage = await database.createMessage({
+      message,
+      password,
+      file,
+      messageId: uuidv4(),
+    });
+    history('/send-message', {state: newMessage.messageId});
   };
 
   return (

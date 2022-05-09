@@ -5,13 +5,15 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { Container, Paper } from "@mui/material";
 import { Download, Key } from "@mui/icons-material";
+import { useParams } from "react-router-dom";
 
 const ShowMessage = () => {
+  const params = useParams();
   const messageID = params.messageId;
 
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  console.log(messageID);
+
   return (
     <div className="App">
       <Typography variant="h3" p={2} align="center" color="initial">
@@ -35,7 +37,7 @@ const ShowMessage = () => {
               type="password"
               label="Enter the password"
               value={password}
-              onChange={(e) => {}}
+              onChange={(e) => setPassword(e.target.value)}
             />
 
             <Button
