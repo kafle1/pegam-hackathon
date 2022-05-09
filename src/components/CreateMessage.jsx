@@ -1,66 +1,84 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import Container from "@mui/material/Container";
+import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import { Stack, ButtonGroup, IconButton } from "@mui/material";
+import { ButtonGroup, Container, IconButton, Box } from "@mui/material";
 import { AttachFileRounded, ImageRounded } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 const CreateMessage = () => {
-    const [message, setMessage] = useState("");
+  const [message, setMessage] = useState("");
+  const [password, setPassword] = useState("");
+  const [file, setFile] = useState();
 
-    const handleMessage = () => {
-      console.log("messageSent");
-    };
-    return (
-        <div className="App">
-          <Typography variant="h3" p={2} align="center" color="initial">
-            Pegam
-          </Typography>
-          <Typography variant="h5" align="center" color="primary">
-            Create A New Pegam
-          </Typography>
-          <Typography variant="body1" align="center" color="GrayText">
-            The message will be deleted after 72 hours
-          </Typography>
-    
-          <Stack spacing={1} justifyContent="center" alignItems="center">
-            <Container maxWidth="xl">
-              <TextField
-                id="message"
-                label="Enter the message"
-                multiline
-                rows={5}
-                value={message}
-                fullWidth
-                onChange={(e) => setMessage(e.target.value)}
-              />
-              <ButtonGroup variant="text" color="primary">
-                <IconButton
-                type=''
-                  aria-label="document"
-                  color="primary"
-                  onClick={() => {}}
-                >
-                  <AttachFileRounded></AttachFileRounded>
-                </IconButton>
-                <IconButton aria-label="image" color="primary" onClick={() => {}}>
-                  <ImageRounded></ImageRounded>
-                </IconButton>
-              </ButtonGroup>
-            </Container>
-            <Button
-              style={{ maxWidth: "160px" }}
-              variant="contained"
+  const history = useNavigate();
+  const createPegam = (e) => {
+    history("/send-message");
+    console.log({ message, password, file });
+  };
+
+  return (
+    <div className="App">
+      <Typography variant="h3" p={2} align="center" color="initial">
+        Pegam
+      </Typography>
+      <Typography variant="h5" align="center" color="primary">
+        Create A New Pegam
+      </Typography>
+      <Typography variant="body1" align="center" gutterBottom color="GrayText">
+        The message will be deleted after 72 hours
+      </Typography>
+
+      <Container maxWidth="xl">
+        <Stack spacing={3}>
+          <Box>
+            <TextField
+              id="message"
+              label="Enter the message"
+              multiline
+              rows={5}
+              value={message}
+              fullWidth
+              onChange={(e) => setMessage(e.target.value)}
+            />
+
+            <IconButton
+              type="file"
+              aria-label="document"
               color="primary"
-              onClick={() => setOpen(true)}
+              onClick={() => {}}
+              component="label"
             >
-              Create Pegam
-            </Button>
-          </Stack>
-         
-        </div>
-      );
-}
+              <input
+                type="file"
+                hidden
+                onChange={(e) => setFile(e.target.files[0])}
+              />
 
-export default CreateMessage
+              <AttachFileRounded />
+            </IconButton>
+          </Box>
+          <TextField
+            id="password"
+            type="password"
+            label="Enter a password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          <Button
+            size="large"
+            variant="contained"
+            color="primary"
+            onClick={(e) => createPegam(e)}
+          >
+            Create Pegam
+          </Button>
+        </Stack>
+      </Container>
+    </div>
+  );
+};
+
+export default CreateMessage;
