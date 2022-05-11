@@ -7,18 +7,22 @@ import {
   Stack,
   InputAdornment,
   IconButton,
+  Alert,
+  Snackbar,
 } from "@mui/material";
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const SendMessage = () => {
   const location = useLocation();
   const messageId = location.state;
 
-  const [url, setUrl] = useState('https://localhost:3000/'+messageId);
-  const [mail, setMail] = useState("");
+  const [url, setUrl] = useState("http://localhost:3000/" + messageId);
+  // const [mail, setMail] = useState("");
+  const [openSnackBar, setOpenSnackBar] = useState(false);
 
-  const [errorText, setErrorText] = useState("");
+
   return (
     <div>
       <Typography variant="h3" p={2} align="center" color="initial">
@@ -47,9 +51,17 @@ const SendMessage = () => {
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton color="primary" size="large" onClick={() => {}}>
-                      <ContentCopyRounded />
-                    </IconButton>
+                    <CopyToClipboard text={url}>
+                      <IconButton
+                        color="primary"
+                        size="large"
+                        onClick={() => {
+                          setOpenSnackBar(true);
+                        }}
+                      >
+                        <ContentCopyRounded />
+                      </IconButton>
+                    </CopyToClipboard>
                   </InputAdornment>
                 ),
               }}
@@ -59,7 +71,7 @@ const SendMessage = () => {
       </Container>
 
       <Container maxWidth="xl">
-        <Paper style={{ margin: "20px 0px" }} elevation={2}>
+        {/* <Paper style={{ margin: "20px 0px" }} elevation={2}>
           <Stack p={2} spacing={2}>
             <Typography variant="body2" color="primary">
               Send this Pegam as a mail to your friend !
@@ -83,7 +95,20 @@ const SendMessage = () => {
               }}
             />
           </Stack>
-        </Paper>
+        </Paper> */}
+        <Snackbar
+          open={openSnackBar}
+          autoHideDuration={6000}
+          onClose={() => setOpenSnackBar(false)}
+        >
+          <Alert
+            onClose={() => setOpenSnackBar(false)}
+            severity='success'
+            sx={{ width: "100%" }}
+          >
+           Copied to Clipboard Successfully !
+          </Alert>
+        </Snackbar>
       </Container>
     </div>
   );

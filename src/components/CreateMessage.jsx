@@ -6,7 +6,6 @@ import Button from "@mui/material/Button";
 import { Container, IconButton, Box } from "@mui/material";
 import { AttachFileRounded } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
 import { database } from "../appwrite/database";
 
 const CreateMessage = () => {
@@ -14,15 +13,27 @@ const CreateMessage = () => {
   const [password, setPassword] = useState("");
   const [file, setFile] = useState();
 
+  const [messageErrorText, setMessageErrorText] = useState("");
+  const [pwdErrorText, setpwdErrorText] = useState("");
+
   const history = useNavigate();
   const createPegam = async (e) => {
-    const newMessage = await database.createMessage({
-      message,
-      password,
-      file,
-      messageId: uuidv4(),
-    });
-    history('/send-message', {state: newMessage.messageId});
+    if (message.length <= 5) {
+      setMessageErrorText("Message should be greater than 5 characters long");
+      setpwdErrorText("");
+    } else if (password.length <= 3) {
+      setpwdErrorText("Password should be greater than 3 characters long");
+      setMessageErrorText("");
+    } else {
+      setMessageErrorText("");
+      setpwdErrorText("");
+      const newMessage = await database.createMessage({
+        message,
+        password,
+        file,
+      });
+      history("/send-message", { state: newMessage.$id });
+    }
   };
 
   return (
@@ -47,6 +58,8 @@ const CreateMessage = () => {
               rows={5}
               value={message}
               fullWidth
+              error={messageErrorText}
+              helperText={messageErrorText && messageErrorText}
               onChange={(e) => setMessage(e.target.value)}
             />
 
@@ -70,6 +83,8 @@ const CreateMessage = () => {
             id="password"
             type="password"
             label="Enter a password"
+            error={pwdErrorText}
+            helperText={pwdErrorText && pwdErrorText}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
