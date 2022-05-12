@@ -18,7 +18,7 @@ const SendMessage = () => {
   const location = useLocation();
   const messageId = location.state;
 
-  const [url, setUrl] = useState("http://localhost:3000/" + messageId);
+  const [url, setUrl] = useState("https://pegam.netlify.app/" + messageId);
   // const [mail, setMail] = useState("");
   const [openSnackBar, setOpenSnackBar] = useState(false);
 

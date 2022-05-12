@@ -14,6 +14,17 @@ export const database = {
       "PEGAM'S_SECRET_KEY"
     ).toString();
 
+    //Create a new sesson for the user
+    const createUser = async () => {
+      var newUser = await account.createAnonymousSession();
+      localStorage.setItem("newUser", JSON.stringify(newUser));
+    };
+
+    //Create a anonymous user if not there
+    const retrievedUser = JSON.parse(localStorage.getItem("newUser"));
+    if (!retrievedUser) {
+      createUser();
+    }
     if (file) {
       try {
         //Upload file
