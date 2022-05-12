@@ -3,8 +3,8 @@ import { Appwrite } from "appwrite";
 const appwrite = new Appwrite();
 
 appwrite
-  .setEndpoint("http://localhost:90/v1") // Your API Endpoint
-  .setProject("62792e3fb4c39769fbe9"); // Your project ID
+  .setEndpoint("http://178.62.239.177/v1") // Your API Endpoint
+  .setProject("627c7a76569e5e93393d"); // Your project ID
 
 export const db = appwrite.database;
 export const storage = appwrite.storage;

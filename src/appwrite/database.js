@@ -18,13 +18,13 @@ export const database = {
       try {
         //Upload file
         const uploadedFile = await storage.createFile(
-          "62793b484aa1cdf81b25",
+          "627c7b05896c2286d9dc",
           "unique()",
           file
         );
 
         //Upload the data
-        return await db.createDocument("62792e4d59faf1d4fdb4", "unique()", {
+        return await db.createDocument("627c7abfcbcd55c13edb", "unique()", {
           message: encryptedMessage,
 
           password: encryptedPassword,
@@ -36,7 +36,7 @@ export const database = {
     } else {
       try {
         //Upload the data
-        return await db.createDocument("62792e4d59faf1d4fdb4", "unique()", {
+        return await db.createDocument("627c7abfcbcd55c13edb", "unique()", {
           message: encryptedMessage,
 
           password: encryptedPassword,
@@ -50,7 +50,7 @@ export const database = {
   getMessage: async (docId, pwd) => {
     try {
       //Get message
-      const data = await db.getDocument("62792e4d59faf1d4fdb4", docId);
+      const data = await db.getDocument("627c7abfcbcd55c13edb", docId);
 
       //Decrypt password
       const encryptedPassword = CryptoJS.AES.decrypt(
@@ -71,7 +71,7 @@ export const database = {
         //Get file
         if (data.file) {
           const link = await storage.getFileDownload(
-            "62793b484aa1cdf81b25",
+            "627c7b05896c2286d9dc",
             data.file
           );
           return { message, link };
